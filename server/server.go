@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/alexperez/settings-management-service/storage"
+	"github.com/alexperez/poll-stars/storage"
 	"go.uber.org/zap"
 )
 
@@ -15,10 +15,7 @@ type server struct{
 
 //NewServer returns a server struct
 func NewServer(s storage.Storage, l *zap.Logger) *server {
-	return &server{
-		s,
-		l
-	}
+	return &server{s, l}
 }
 
 func (s *server) VoteHandler(w http.ResponseWriter, r *http.Request) {
