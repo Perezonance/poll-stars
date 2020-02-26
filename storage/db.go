@@ -20,9 +20,19 @@ type sql struct {
 	l *zap.Logger
 }
 
-func NewSQL(host, username, password, name, port, ssl string, l *zap.logger) (Storage, error) {
+type DBCredentials struct {
+	Host string
+	User	string
+	Pass	string
+	Name	string
+	Port 	string
+	Ssl 	string
+}
+
+//NewSQL takes in a logger and dbCredentials struct to establish a connection with a DB
+func NewSQL(dbC DBCredentials, l *zap.Logger) (Storage, error) {
 	//Connect to DB with driver and
-	var db, err = sqlx.Connect(driverName, fmt.Sprintf(connStr, username, password, ssl, name, host, port))
+	var db, err = sqlx.Connect(driverName, fmt.Sprintf(connStr, dbC.user, dbC.pass, dbC.ssl, dbC.name, dbC.host, dbC.port))
 	if err != nil {
 		l.Error("NewSQL: error connecting to db", zap.Error(err))
 		return nil, err
@@ -34,6 +44,7 @@ func NewSQL(host, username, password, name, port, ssl string, l *zap.logger) (St
 		l.Error("NewSQL: error pinging db", zap.Error(err))
 		return nil, err
 	}
+	//Return the connection struct
 	 return &sql{
 		 db:    db,
 		 l: l,
@@ -41,5 +52,11 @@ func NewSQL(host, username, password, name, port, ssl string, l *zap.logger) (St
 }
 
 func (s *sql) AddCandidate() (string, error) {
+	//TODO: UNIMPLIMENTED
+	return "", nil
+}
+
+func (s *sql) SubmitVote() (string, error) {
+	//TODO: UNIMPLIMENTED
 	return "", nil
 }
